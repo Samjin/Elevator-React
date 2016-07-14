@@ -1,93 +1,134 @@
-// addToQue
-// goToFloor - > 
-//     //goUp 
-//     //goDown
-// updateFloorNumber (only after arrive to floor)
-// removeFromQue
+// DOM Hierarchy
+/*
+*  elevator
+*       floorContainer
+*       elevatorPanel
+*           displayPanel
+*               curerntFloor
+*               lightDirection
+*           floorBtns
+*/
 
-// TODO, write in composition pattern. 
-// TODO, write in pure JavaScript
+// Tip: 
+// Never access 'refs' inside of any component's render method - 
+// or while any component's render method is even running anywhere in the call stack. 'refs' reach to real DOM node
+// 'PropTypes' defines type and which props are required.
 
-var Elevator = {
+//Try to keep as many of your components as possible stateless
+var FloorContainer = React.createClass({
+    render: function(){
 
-    init: function() {
-        this.floorContainer = $('.floorContainer');
-        this.floors = Array.prototype.reverse.call($('.floor')).get(); //array [4 floor elems]
-        this.totalHeight = $(window).height() * (this.floors.length - 1);
-        resetPanelPos = this.floorContainer.scrollTop(this.totalHeight);
-
-        this.state = { moving: 0 };
-        this.btnClick();
-    },
-
-    btnClick: function() {
-        var self = this;
-
-        $('.elevatorPanel').on('click', '.btns', function() {
-            var $thisBtn = $(this);
-
-            self.stateCheck($thisBtn);
-            self.indicator();
-
-            if (self.state.moving !==0 ) {
-                $thisBtn.addClass('lightUp');
-
-                var control = {
-                    duration: 1500,
-                    complete: function () {
-                        $thisBtn.removeClass('lightUp');
-                        self.stateCheck($thisBtn);
-                        var up = $('.up');
-                        var down = $('.down');
-                        console.log(self.state.moving);
-
-                        if (self.state.moving === -1) {
-                            up.addClass('green');
-                            down.removeClass('red');
-                        } else if (self.state.moving === 1) {
-                            up.removeClass('green');
-                            down.addClass('red');
-                        }
-                    }
-                };
-
-                self.floorContainer.delay(500).animate({
-                    scrollTop: self.floorContainer.scrollTop() + self.nextFloorPos
-                }, control );
-            }
-        });
-    },
-
-
-    stateCheck: function (thisBtn) {
-        var clickedBtnNum = parseInt(thisBtn.data('target'), 10);
-        var $floorTarget = $(this.floors[clickedBtnNum - 1]);
-        this.nextFloorPos = $floorTarget.offset().top;
-        this.prevFloorPos = $(this.floors[0]).offset().top;
-        console.log(this.prevFloorPos, this.nextFloorPos);
-
-        if (this.nextFloorPos === 0) this.state.moving = 0;
-        if (this.nextFloorPos < this.prevFloorPos) this.state.moving = 1; //going up
-        if (this.nextFloorPos > this.prevFloorPos) this.state.moving = -1; //going down
-    },
-
-    indicator: function () {
-        var up = $('.up');
-        var down = $('.down');
-
-        if (this.state.moving === 1) {
-            up.addClass('green');
-            down.removeClass('red');
-        } else if (this.state.moving === -1) {
-            up.removeClass('green');
-            down.addClass('red');
-        }
+        return (
+            <div className='floorContainer'>
+                <div id="floor4" className="floor">4</div>
+                <div id="floor3" className="floor">3</div>
+                <div id="floor2" className="floor">2</div>
+                <div id="floor1" className="floor">1</div>
+            </div>
+        );
     }
-};
+});
 
 
 
-var elevator = Object.create(Elevator);
-var nordstromElevator = $('.elevatorPanel');
-elevator.init(nordstromElevator);
+var ElevatorPanel = React.createClass({
+    render: function(){
+        return (
+            <div className='elevatorPanel'>
+                <DisplayPanel />
+                <FloorBtns />
+            </div>
+        );
+    }
+});
+
+
+
+var DisplayPanel = React.createClass({
+    render: function(){
+        return (
+            <div className='displayPanel'>
+                <div className="currentFloor">1</div>
+
+                <div className='lightDirection'>
+                    <div className="up lights"></div>
+                    <div className="down lights"></div>
+                </div>
+            </div>
+        );
+    }
+});
+
+
+
+var FloorBtns = React.createClass({
+    render: function(){
+        var leftBtns,
+            rightBtns,
+            eachVal,
+            className = 'btns',
+            updateBtnColor = this.props.updateBtnColor,
+            btnsArr=[ [3,4], [2,1] ];
+
+
+        var btns = btnsArr.map(function(num, i) {
+            eachVal = i===1 ? num[i-1] : num[i+1];
+
+            leftBtns =  <div onCLick={updateBtnColor} key={num[i]} className={className} data-target={ "#floor"+ num[i] } > {num[i]} </div>
+            rightBtns = <div onCLick={updateBtnColor} key={eachVal} className={className} data-target={ "#floor"+ eachVal }> {eachVal} </div>
+
+            if(i === 1){
+                return (
+                    <div key={i} className='floorBtns'>
+                        {leftBtns}
+                        {rightBtns}
+                    </div>
+                )
+            } else {
+                return (
+                    <div key={i} className='floorBtns'>
+                        {leftBtns}
+                        {rightBtns}
+                    </div>
+                 );
+            }
+
+        });
+
+        return (
+            <div clsssName='floorBtnPanel'>
+                {btns}
+            </div>
+        );
+    }
+});
+
+
+var Elevator = React.createClass({
+    getInitialState: function() {
+        return {
+            btnColor: false
+        };
+    },
+    updateBtnColor: function () {
+        this.setState({
+            btnColor: true
+        });
+        console.log('hello');
+    },
+    render: function(){
+        return (
+            <div>
+                <FloorContainer />
+                <ElevatorPanel updateBtnColor={this.updateBtnColor} />    
+            </div>
+        );
+    }
+});
+
+
+ReactDOM.render( <Elevator /> , document.getElementById('Elevator') );
+
+
+
 
