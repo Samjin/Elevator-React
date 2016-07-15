@@ -1,0 +1,22 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "elevator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samjin/Elevator-React.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "Shan Jin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samjin/Elevator-React/issues"
+  },
+  "homepage": "https://github.com/Samjin/Elevator-React#readme"
+}
