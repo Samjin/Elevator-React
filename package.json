@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/Samjin/Elevator-React/issues"
   },
-  "homepage": "https://github.com/Samjin/Elevator-React#readme"
+  "homepage": "https://github.com/Samjin/Elevator-React#readme",
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4"
+  }
 }
