@@ -8,18 +8,18 @@ module.exports = {
   },
   module: {
     loaders: [{
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react'],
-           plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy']
-        }
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      query: {
+        presets: ['react'],
+        plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy']
+      }
     }]
   },
   plugin: debug ? [] : [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
   ]
 };

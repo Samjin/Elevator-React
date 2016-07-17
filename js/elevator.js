@@ -14,8 +14,6 @@
 // or while any component's render method is even running anywhere in the call stack. 'refs' reach to real DOM node
 // 'PropTypes' defines type and which props are required.
 
-
-//Try to keep as many of your components stateless as possible 
 var React = require('react');
 var ReactDOM = require('react-dom');
 
@@ -112,6 +110,7 @@ var FloorBtns = React.createClass({
 var Elevator = React.createClass({
     getInitialState: function() {
         return {
+            pos: 1,
             btnColor: false
         };
     },
