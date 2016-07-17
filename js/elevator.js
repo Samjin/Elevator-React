@@ -14,16 +14,21 @@
 // or while any component's render method is even running anywhere in the call stack. 'refs' reach to real DOM node
 // 'PropTypes' defines type and which props are required.
 
-//Try to keep as many of your components as possible stateless
+
+//Try to keep as many of your components stateless as possible 
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 var FloorContainer = React.createClass({
     render: function(){
-
         return (
-            <div className='floorContainer'>
-                <div id="floor4" className="floor">4</div>
-                <div id="floor3" className="floor">3</div>
-                <div id="floor2" className="floor">2</div>
-                <div id="floor1" className="floor">1</div>
+            <div>
+                <div className='floorContainer'>
+                    <div id="floor4" className="floor">4</div>
+                    <div id="floor3" className="floor">3</div>
+                    <div id="floor2" className="floor">2</div>
+                    <div id="floor1" className="floor">1</div>
+                </div>
             </div>
         );
     }
@@ -51,8 +56,8 @@ var DisplayPanel = React.createClass({
                 <div className="currentFloor">1</div>
 
                 <div className='lightDirection'>
-                    <div className="up lights"></div>
-                    <div className="down lights"></div>
+                    <div className="up"></div>
+                    <div className="down"></div>
                 </div>
             </div>
         );
@@ -74,8 +79,8 @@ var FloorBtns = React.createClass({
         var btns = btnsArr.map(function(num, i) {
             eachVal = i===1 ? num[i-1] : num[i+1];
 
-            leftBtns =  <div onCLick={updateBtnColor} key={num[i]} className={className} data-target={ "#floor"+ num[i] } > {num[i]} </div>
-            rightBtns = <div onCLick={updateBtnColor} key={eachVal} className={className} data-target={ "#floor"+ eachVal }> {eachVal} </div>
+            leftBtns =  <div onClick={updateBtnColor} key={num[i]} className={className} data-target={ "#floor"+ num[i] } > {num[i]} </div>;
+            rightBtns = <div onClick={updateBtnColor} key={eachVal} className={className} data-target={ "#floor"+ eachVal }> {eachVal} </div>;
 
             if(i === 1){
                 return (
@@ -83,7 +88,7 @@ var FloorBtns = React.createClass({
                         {leftBtns}
                         {rightBtns}
                     </div>
-                )
+                );
             } else {
                 return (
                     <div key={i} className='floorBtns'>
@@ -96,7 +101,7 @@ var FloorBtns = React.createClass({
         });
 
         return (
-            <div clsssName='floorBtnPanel'>
+            <div>
                 {btns}
             </div>
         );
@@ -128,7 +133,5 @@ var Elevator = React.createClass({
 
 
 ReactDOM.render( <Elevator /> , document.getElementById('Elevator') );
-
-
 
 
